@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Room Details</title>
+<link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
+<link href="css/reservation.css" rel="stylesheet" type="text/css">
+<style>
+      .form-control {
+        width: 20%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        background-color: #fff;
+    }
+</style>
+<script>
+    var roomDetails = {
+        Standard: {
+            101: {
+                size: "300 sq. ft.",
+                beds: "1 queen",
+                bathroom: "Private with shower",
+                amenities: "TV, Wi-Fi, coffee maker",
+                view: "City view"
+            },
+            201: {
+                size: "250 sq. ft.",
+                beds: "2 twin",
+                bathroom: "Private with bathtub",
+                amenities: "TV, Wi-Fi",
+                view: "Garden view"
+            },
+            301: {
+            size: "280 sq. ft.",
+            beds: "1 double",
+            bathroom: "Private with shower",
+            amenities: "TV, Wi-Fi",
+            view: "Courtyard view"
+            },
+            401: {
+            size: "280 sq. ft.",
+            beds: "1 double",
+            bathroom: "Private with shower",
+            amenities: "TV, Wi-Fi",
+            view: "Mountain view"
+        }
+     },
+         Deluxe: {
+            102: {
+                size: "400 sq. ft.",
+                beds: "1 king",
+                bathroom: "Private with jacuzzi",
+                amenities: "TV, Wi-Fi, minibar",
+                view: "Ocean view"
+            },
+            202: {
+                size: "350 sq. ft.",
+                beds: "2 queen",
+                bathroom: "Private with shower",
+                amenities: "TV, Wi-Fi",
+                view: "Mountain view"
+            },
+            302: {
+            size: "380 sq. ft.",
+            beds: "1 king",
+            bathroom: "Private with walk-in shower",
+            amenities: "TV, Wi-Fi, workspace",
+            view: "City view"
+        },
+        402: {
+            size: "380 sq. ft.",
+            beds: "1 king",
+            bathroom: "Private with walk-in shower",
+            amenities: "TV, Wi-Fi, workspace",
+            view: "Garden view"
+        }
+     },
+        Suite: {
+        103: {
+            size: "600 sq. ft.",
+            beds: "1 king",
+            bathroom: "Private with jacuzzi",
+            amenities: "TV, Wi-Fi, minibar, living area",
+            view: "Panoramic city view"
+         },
+        203: {
+            size: "700 sq. ft.",
+            beds: "2 queen",
+            bathroom: "Private with bathtub",
+            amenities: "TV, Wi-Fi, kitchenette",
+            view: "Ocean view"
+        },
+        303: {
+            size: "390 sq. ft.",
+            beds: "1 king",
+            bathroom: "Private with bathtub",
+            amenities: "TV, Wi-Fi, minibar",
+            view: "Lake view"
+        },
+        403: {
+            size: "390 sq. ft.",
+            beds: "2 queen",
+            bathroom: "Private with shower",
+            amenities: "TV, Wi-Fi",
+            view: "Park view"
+        }
+    },
+    Executive: {
+        104: {
+            size: "500 sq. ft.",
+            beds: "1 king",
+            bathroom: "Private with walk-in shower",
+            amenities: "TV, Wi-Fi, workspace, lounge area",
+            view: "City skyline view"
+        },
+        204: {
+            size: "550 sq. ft.",
+            beds: "2 queen",
+            bathroom: "Private with bathtub",
+            amenities: "TV, Wi-Fi, minibar",
+            view: "Golf course view"
+        },
+        304: {
+            size: "525 sq. ft.",
+            beds: "1 king",
+            bathroom: "Private with rain shower",
+            amenities: "TV, Wi-Fi, lounge area",
+            view: "River view"
+        },
+        404: {
+            size: "525 sq. ft.",
+            beds: "1 king",
+            bathroom: "Private with walk-in shower",
+            amenities: "TV, Wi-Fi, workspace",
+            view: "Mountain view"
+        }
+    }
+};
+
+    function updateRoomOptions() {
+        var roomTypeSelect = document.getElementById("roomType");
+        var roomNoSelect = document.getElementById("roomNo");
+        var selectedRoomType = roomTypeSelect.value;
+
+        // Clear previous options
+        roomNoSelect.innerHTML = "<option value='-1'>- Not selected -</option>";
+
+        if (selectedRoomType !== "-1") {
+            var roomNumbers = Object.keys(roomDetails[selectedRoomType]);
+            for (var i = 0; i < roomNumbers.length; i++) {
+                var option = document.createElement("option");
+                option.value = roomNumbers[i];
+                option.text = roomNumbers[i];
+                roomNoSelect.appendChild(option);
+            }
+        }
+    }
+
+    function showRoomDetails() {
+        var roomTypeSelect = document.getElementById("roomType");
+        var roomNoSelect = document.getElementById("roomNo");
+        var detailsDiv = document.getElementById("details");
+        var selectedRoomType = roomTypeSelect.value;
+        var selectedRoomNo = roomNoSelect.value;
+
+        if (selectedRoomType !== "-1" && selectedRoomNo !== "-1") {
+            var details = roomDetails[selectedRoomType][selectedRoomNo];
+            var detailsHTML = "<h2>Room Details:</h2>";
+            for (var key in details) {
+                detailsHTML += "<p><strong>" + key.capitalize() + ":</strong> " + details[key] + "</p>";
+            }
+            detailsDiv.innerHTML = detailsHTML;
+        } else {
+            detailsDiv.innerHTML = "<p>Please select a room type and room number.</p>";
+        }
+    }
+
+    // Function to capitalize the first letter of a string
+    String.prototype.capitalize = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+    };
+</script>
+
+</head>
+<body>
+    <!---start-Wrap--->
+			<!---start-header--->
+			<div class="header">
+				<div class="wrap">
+					<div class="header-top">
+						<div class="logo">
+							<a href="index.html"><img src="images/logo2.png" title="logo" /></a>
+						</div>
+						<div class="contact-info">
+							<p class="phone">Call us : <a href="#">9808147755,9840602765</a></p>
+							<p class="gpa">Gps : <a href="https://www.google.com/maps/place/New+Hotel+Elite+(P)+Ltd/@27.7117484,85.3104502,17z/data=!3m1!4b1!4m9!3m8!1s0x39eb18fdefffffff:0xcf6b523c8d383f44!5m2!4m1!1i2!8m2!3d27.7117484!4d85.3130251!16s%2Fg%2F11b6dq98s8?entry=ttu">View map</a></p>
+						</div>
+						<div class="clear"> </div>
+					</div>
+				</div>
+				<div class="header-top-nav">
+					<div class="wrap">
+						<ul>
+							<li><a href="php/user_profile.php">Account Details</a></li>
+                            <li class="active"><a href="room_details.php">Room Details</a></li>
+							<li><a href="php/reservation.php">Book Room</a></li>
+							<li><a href="php/reservdetail.php">Booking Details</a></li>
+                     <li class="logout-button"><a href="logout.php">Logout</a></li>
+							
+							<div class="clear"> </div>
+						</ul>
+					</div>
+				</div>
+			</div>
+            <h1 align="center">Room Details Lookup</h1>
+            <form align="center">
+            <div class="form-group">
+                <label for="roomType">Room Type:</label>
+                <select id="roomType" name="roomType" class="form-control" onchange="updateRoomOptions()" required>
+                    <option value="-1">- Not selected -</option>
+                    <option value="Standard">Standard</option>
+                    <option value="Deluxe">Deluxe</option>
+                    <option value="Suite">Suite</option>
+                <option value="Executive">Executive</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="roomNo">Room No:</label>
+                <select id="roomNo" name="roomNo" class="form-control" required>
+                    <option value="-1">- Not selected -</option>
+                </select>
+            </div>
+            <button type="button" onclick="showRoomDetails()">Show Details</button>
+            <div class="form-group">
+            <div id="details" align="justify"></div>
+        </div>
+        </form>
+</body>
+</html>
