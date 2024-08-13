@@ -65,7 +65,7 @@
 						<ul>
 							<li ><a href="admin_profile.php">Booking Details</a></li>
 							<!-- <li><a href="change_password.php">Change Password</a></li> -->
-							
+							<li><a href="all-hotel.php">Our Hotels</a></li>
 							<li ><a href="dispcontact.php">Messages</a></li>
 							<li class="active" ><a href="userdetail.php">User Details</a></li>
                      <li class="logout-button"><a href="logout.php">Logout</a></li>

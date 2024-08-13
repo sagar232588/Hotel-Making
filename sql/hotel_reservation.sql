@@ -1,48 +1,21 @@
--- Create the database
-CREATE DATABASE IF NOT EXISTS hotel_db;
-
--- Switch to the database
-USE hotel_db;
-
--- Create the users table
-CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'user') NOT NULL DEFAULT 'user'
-);
-
--- Create the bookings table
-CREATE TABLE bookings (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    email VARCHAR(50),
-    phone VARCHAR(10),
-    room_type VARCHAR(25),
-    room_no VARCHAR(25),
-    check_in_date DATE,
-    check_out_date DATE,
-    country VARCHAR(50),
-    status VARCHAR(50),
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
--- Create the contact table
-CREATE TABLE IF NOT EXISTS contact (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    mobile_number VARCHAR(15) NOT NULL,
-    subject TEXT NOT NULL
-);
-
--- Create the rooms table
-CREATE TABLE IF NOT EXISTS rooms (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    room_type VARCHAR(50) NOT NULL,
-    room_no VARCHAR(10) NOT NULL UNIQUE
-);
+INSERT INTO hotel (name, description, facility, location, img) VALUES
+('Hotel Kathmandu Palace', 'A luxury hotel in the heart of Kathmandu.', 'Free WiFi, Spa, Pool, Restaurant', 'Kathmandu, Thamel', 'ktm_palace.jpg'),
+('Mountain View Resort', 'Resort with stunning views of the Himalayas.', 'Free WiFi, Guided Tours, Restaurant', 'Kathmandu, Boudha', 'mountain_view.jpg'),
+('Everest Guest House', 'Comfortable guest house with budget-friendly rooms.', 'Free WiFi, Airport Shuttle, Restaurant', 'Kathmandu, Lazimpat', 'everest_guest_house.jpg'),
+('Heritage Hotel', 'Experience the rich culture of Kathmandu at this heritage property.', 'Free WiFi, Cultural Tours, Restaurant', 'Kathmandu, Patan', 'heritage_hotel.jpg'),
+('Valley Inn', 'A cozy inn located near the city center.', 'Free WiFi, Room Service, Restaurant', 'Kathmandu, New Road', 'valley_inn.jpg'),
+('City Center Hotel', 'Modern hotel with easy access to shopping and attractions.', 'Free WiFi, Gym, Restaurant', 'Kathmandu, Durbar Marg', 'city_center.jpg'),
+('Temple View Lodge', 'Lodge with a view of Pashupatinath Temple.', 'Free WiFi, Room Service, Restaurant', 'Kathmandu, Gaushala', 'temple_view.jpg'),
+('Kathmandu Suites', 'Spacious suites with modern amenities.', 'Free WiFi, Spa, Restaurant', 'Kathmandu, Lazimpat', 'kathmandu_suites.jpg'),
+('Peaceful Resort', 'A tranquil resort on the outskirts of the city.', 'Free WiFi, Garden, Restaurant', 'Kathmandu, Budhanilkantha', 'peaceful_resort.jpg'),
+('Boutique Hotel Himalaya', 'A boutique hotel with a unique Himalayan touch.', 'Free WiFi, Spa, Restaurant', 'Kathmandu, Jawalakhel', 'boutique_himalaya.jpg'),
+('Sunrise Hotel', 'Hotel with a beautiful view of the sunrise over the mountains.', 'Free WiFi, Airport Shuttle, Restaurant', 'Kathmandu, Swayambhu', 'sunrise_hotel.jpg'),
+('Kathmandu Plaza', 'Centrally located hotel with modern facilities.', 'Free WiFi, Conference Room, Restaurant', 'Kathmandu, Baneshwor', 'kathmandu_plaza.jpg'),
+('Royal Garden Hotel', 'Luxurious hotel with a royal touch.', 'Free WiFi, Spa, Restaurant', 'Kathmandu, Lazimpat', 'royal_garden.jpg'),
+('Natures Retreat', 'A retreat surrounded by nature in the hills.', 'Free WiFi, Yoga Classes, Restaurant', 'Kathmandu, Pharping', 'natures_retreat.jpg'),
+('Thamel Eco Resort', 'Eco-friendly resort in the bustling Thamel area.', 'Free WiFi, Eco-Tours, Restaurant', 'Kathmandu, Thamel', 'thamel_eco.jpg'),
+('Golden Temple Inn', 'Hotel near the famous Golden Temple.', 'Free WiFi, Cultural Tours, Restaurant', 'Kathmandu, Patan', 'golden_temple.jpg'),
+('Cityscape Hotel', 'Hotel with a panoramic view of the Kathmandu skyline.', 'Free WiFi, Rooftop Bar, Restaurant', 'Kathmandu, Boudha', 'cityscape_hotel.jpg'),
+('Tranquil Valley Hotel', 'A quiet retreat in a bustling city.', 'Free WiFi, Meditation Center, Restaurant', 'Kathmandu, Kapan', 'tranquil_valley.jpg'),
+('Kathmandu View Tower Hotel', 'Hotel with stunning views of the entire Kathmandu valley.', 'Free WiFi, Observation Deck, Restaurant', 'Kathmandu, Kalanki', 'ktm_view_tower.jpg'),
+('Everest Base Hotel', 'Hotel offering base camp-style accommodation in the city.', 'Free WiFi, Adventure Tours, Restaurant', 'Kathmandu, Balaju', 'everest_base.jpg');

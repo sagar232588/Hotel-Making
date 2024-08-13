@@ -57,12 +57,11 @@ if (isset($_POST['action']) && isset($_POST['booking_id'])) {
 				<div class="header-top-nav">
 					<div class="wrap">
 						<ul>
-							<li class="active"><a href="admin_profile.php">Booking Details</a></li>
+							<li ><a href="admin_profile.php">Booking Details</a></li>
+							<li class="active"><a href="add-new-hotel.php">Add Hotel</a></li>
 							<!-- <li><a href="change_password.php">Change Password</a></li> -->
-              <li><a href="all-hotel.php">Our Hotels</a></li>
-              <li><a href="create_owner.php">Owner Accounts</a></li>
 							<li><a href="dispcontact.php">Messages</a></li>
-			
+							<li><a href="reservdetail.php"></a></li>
 							<li ><a href="userdetail.php">User Details</a></li>
                      <li class="logout-button"><a href="logout.php">Logout</a></li>
 							
@@ -71,57 +70,72 @@ if (isset($_POST['action']) && isset($_POST['booking_id'])) {
 					</div>
 				</div>
 			</div>
-  <h1>Welcome, Admin!</h1>
-  
-  <h2>Bookings</h2>
-  <table>
-    <tr>
-      <th>Id</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Email</th>
-      <th>Phone</th>
-      
-      <th>Room Type</th>
-      <th>Room No</th>
-      <th>Check-In Date</th>
-      <th>Check-Out Date</th>
-      
-      <th>Country</th>
-      
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-    <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-      <tr>
-        <td><?php echo $row['id']; ?></td>
-        <td><?php echo $row['first_name']; ?></td>
-        <td><?php echo $row['last_name']; ?></td>
-        <td><?php echo $row['email']; ?></td>
-        <td><?php echo $row['phone']; ?></td>
-     
-        <td><?php echo $row['room_type']; ?></td>
-        <td><?php echo $row['room_no']; ?></td>
-        <td><?php echo $row['check_in_date']; ?></td>
-        <td><?php echo $row['check_out_date']; ?></td>
-      
-        <td><?php echo $row['country']; ?></td>
-       
-        <td><?php echo $row['STATUS']; ?></td>
-        <td>
-          <?php if ($row['STATUS'] === 'Pending') { ?>
-            <form method="post">
-              <input type="hidden" name="booking_id" value="<?php echo $row['id']; ?>">
-              <button type="submit" name="action" value="cancel">Cancel</button>
-              <button type="submit" name="action" value="confirm">Confirm</button>
-            </form>
-          <?php } ?>
-        </td>
-      </tr>
-    <?php } ?>
-  </table>
-  
-  
-
 </body>
 </html>
+
+
+
+<div style="width:80%;background:whitesmoke;height:1000px;padding:0px 200px;">
+    <!-- Form to add new hotel -->
+    <form class="hotel-form" method="post" action='addnewhotel.php' enctype="multipart/form-data">
+        <h2>Add New Hotel</h2>
+        <input type="text" name="name" placeholder="Hotel Name" /><br/>
+        <!-- <input type="text" name="price" placeholder="Price" /><br/> -->
+        <input type="text" name="description" placeholder="Hotel Description" /><br/>
+        <input type="text" name="facility" placeholder="Facilities" /><br/>
+        <input type="text" name="location" placeholder="Location" /><br/>
+        <input type="file" name="file" id="fileToUpload"><br/> 
+        <input type="submit" value="Add Hotel" name="submit"><br/>
+    </form>
+    <!-- End of add new hotel form -->
+</div>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+    }
+
+    .hotel-form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        margin: 20px auto;
+    }
+
+    .hotel-form h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .hotel-form input[type="text"],
+    .hotel-form input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .hotel-form input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .hotel-form input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+

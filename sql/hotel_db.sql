@@ -133,6 +133,30 @@ INSERT INTO `user_data` (`userid`, `fname`, `lname`, `email`, `password`, `role`
 (86, 'kkk', 'lll', 'lll@gmail.com', '1234', 'user', NULL),
 (87, 'nnnbb', ' hvh', 'gggg@gmail.com', 'ggg', 'user', NULL);
 
+CREATE TABLE hotel_owners (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    owner_name VARCHAR(255) NOT NULL,
+    owner_email VARCHAR(255) NOT NULL UNIQUE,
+    hotel_name VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE hotel_rooms (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    hotel_id INT NOT NULL,
+    room_number VARCHAR(50) NOT NULL,
+    room_type VARCHAR(255),
+    price DECIMAL(10, 2),
+    availability ENUM('Available', 'Not Available') DEFAULT 'Not Available',
+    room_image VARCHAR(255),
+    services JSON,
+    FOREIGN KEY (hotel_id) REFERENCES hotel(id) ON DELETE CASCADE,
+    CONSTRAINT unique_room_per_hotel UNIQUE (hotel_id, room_number)
+);
+
+
 --
 -- Indexes for dumped tables
 --
@@ -198,3 +222,13 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+CREATE TABLE hotel_reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    hotel_id INT NOT NULL,
+    user_id INT NOT NULL,
+    rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    review TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (hotel_id) REFERENCES hotel(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES user_data(userid) ON DELETE CASCADE
+);
