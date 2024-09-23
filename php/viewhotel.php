@@ -2,6 +2,9 @@
 require 'connection.php';
 session_start(); // Start the session to track logged-in user
 
+// Check if the user is logged in by verifying if the 'userid' exists in the session
+
+
 $user_id = $_SESSION['userid']; // Assuming user ID is stored in the session after login
 $hotel_id = isset($_GET['id']) ? intval($_GET['id']) : 0; // Validate and sanitize the hotel ID
 
@@ -10,6 +13,7 @@ if ($hotel_id <= 0) {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,107 +21,130 @@ if ($hotel_id <= 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Hotel</title>
     <link href="../css/style.css" rel="stylesheet" type="text/css" media="all" />
+    		<link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'> 
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <style>
         .content {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 20px;
-}
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
 
-.hotel-details, .hotel-reviews {
-    flex: 1;
-    min-width: 50%;
-    box-sizing: border-box;
-    padding: 20px;
-}
+        .hotel-details, .hotel-reviews {
+            flex: 1;
+            min-width: 50%;
+            box-sizing: border-box;
+            padding: 20px;
+        }
 
-.hotel-details {
-    border-right: 1px solid #ddd;
-}
+        .hotel-details {
+            border-right: 1px solid #ddd;
+        }
 
-.reviews {
-    margin-top: 20px;
-}
+        .reviews {
+            margin-top: 20px;
+        }
 
-.review-item {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-}
+        .review-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
 
-.review-rating i {
-    color: gold;
-}
+        .review-rating i {
+            color: gold;
+        }
 
-.rating-stars i {
-    color: gold;
-}
+        .rating-stars i {
+            color: gold;
+        }
 
-.room-list {
-    margin-top: 30px;
-}
+        .room-list {
+            margin-top: 30px;
+        }
 
-.room-item {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-}
+        .room-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
 
-.booking-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: inline-block;
-}
+        .booking-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: inline-block;
+        }
 
-.booking-button:hover {
-    background-color: #0056b3;
-}
+        .booking-button:hover {
+            background-color: #0056b3;
+        }
 
-.review-form {
-    margin-top: 20px;
-}
+        .review-form {
+            margin-top: 20px;
+        }
 
-.review-form textarea, .review-form input[type="submit"], .review-form select {
-    display: block;
-    margin-top: 10px;
-    width: 100%;
-}
+        .review-form textarea, .review-form input[type="submit"], .review-form select {
+            display: block;
+            margin-top: 10px;
+            width: 100%;
+        }
 
-.review-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
+        .review-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
+        .review-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
 
-.review-actions {
-    margin-top: 10px;
-    display: flex;
-    gap: 10px;
-}
+        .review-action {
+            color: #007bff;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-.review-action {
-    color: #007bff;
-    text-decoration: none;
-    padding: 5px 10px;
-    border: 1px solid #007bff;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-}
+        .review-action:hover {
+            background-color: #007bff;
+            color: white;
+        }
 
-.review-action:hover {
-    background-color: #007bff;
-    color: white;
-}
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007BFF; /* Blue color */
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
 
+        .back-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
 
+        .map-container {
+            height: 300px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 <div class="header">
-    <!-- Include header code here -->
+    <a href="hotel_user.php" class="back-button">Back to Hotels</a>
 </div>
 
 <div class="wrap">
@@ -151,7 +178,9 @@ if ($hotel_id <= 0) {
                 echo "<p><strong>Facilities:</strong> " . htmlspecialchars($hotel['facility']) . "</p>";
                 echo "<p><strong>Location:</strong> " . htmlspecialchars($hotel['location']) . "</p>";
 
-              
+                // Map container for hotel location
+                echo "<div id='map' class='map-container'></div>";
+
                 // Fetch available rooms
                 echo "<h3>Available Rooms:</h3>";
                 $room_query = "SELECT * FROM hotel_rooms WHERE hotel_id = ?";
@@ -164,10 +193,10 @@ if ($hotel_id <= 0) {
                     echo "<div class='room-list'>";
                     while ($room = $room_result->fetch_assoc()) {
                         echo "<div class='room-item'>";
-                        echo "<h4>" . htmlspecialchars($room['name']) . "</h4>";
+                        echo "<h4>" . htmlspecialchars($room['room_type']) . "</h4>";
                         echo "<p><strong>Price:</strong> $" . htmlspecialchars($room['price']) . " per night</p>";
                         echo "<p><strong>Services:</strong> " . htmlspecialchars($room['services']) . "</p>";
-                        echo "<a href='book_room.php?room_id=" . htmlspecialchars($room['id']) . "' class='booking-button'>Book Now</a>";
+                        echo "<a href='reservation.php?room_id=" . htmlspecialchars($room['id']) . "' class='booking-button'>Book Now</a>";
                         echo "</div>";
                     }
                     echo "</div>";
@@ -181,7 +210,7 @@ if ($hotel_id <= 0) {
             ?>
         </div>
 
-    <!-- Hotel Reviews Section -->
+         <!-- Hotel Reviews Section -->
     <div class="hotel-reviews">
         <?php
         // Calculate and display the average rating
@@ -299,6 +328,22 @@ if ($hotel_id <= 0) {
     </div>
 </div>
 </div>
+
+<script>
+    // Initialize the map
+    var map = L.map('map').setView([<?php echo htmlspecialchars($hotel['latitude']); ?>, <?php echo htmlspecialchars($hotel['longitude']); ?>], 13);
+
+    // Set up the OpenStreetMap layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    // Add a marker for the hotel location
+    L.marker([<?php echo htmlspecialchars($hotel['latitude']); ?>, <?php echo htmlspecialchars($hotel['longitude']); ?>]).addTo(map)
+        .bindPopup("<b><?php echo htmlspecialchars($hotel['name']); ?></b><br><?php echo htmlspecialchars($hotel['location']); ?>")
+        .openPopup();
+</script>
 
 </body>
 </html>

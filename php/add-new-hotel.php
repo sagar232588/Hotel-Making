@@ -39,6 +39,9 @@ if (isset($_POST['action']) && isset($_POST['booking_id'])) {
   <!-- Add your CSS styling here -->
   <link href="../css/admin.css" rel="stylesheet" type="text/css"  media="all" />
   <link href="../css/style.css" rel="stylesheet" type="text/css"  media="all" />
+  <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'> 
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 </head>
 <body>
 <div class="header">

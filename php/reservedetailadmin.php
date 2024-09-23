@@ -2,22 +2,18 @@
 require 'connection.php'; 
 session_start(); // Start the session to access user information
 
-// Check if the user is logged in
-if (!isset($_SESSION['userid'])) {
+// Check if the user is logged in and is an admin
+if (!isset($_SESSION['userid']) || $_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit();
 }
 
-// Get user ID from session
-$userid = $_SESSION['userid'];
-
 // Initialize an empty array to hold booking details
 $bookings = [];
 
-// Fetch bookings only for the logged-in user
-$query = "SELECT * FROM hotel_bookings WHERE user_id = ?";
+// Fetch all bookings
+$query = "SELECT * FROM hotel_bookings";
 $stmt = $conn->prepare($query);
-$stmt->bind_param("i", $userid);
 
 // Execute the query
 $stmt->execute();
@@ -37,9 +33,9 @@ $stmt->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile - Booking Details</title>
+    <title>Admin - Booking Details</title>
     <link href="../css/style.css" rel="stylesheet" type="text/css" media="all" />
-	<link href="../css/reservedetail.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../css/reservedetail.css" rel="stylesheet" type="text/css" media="all" />
     <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'> 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 </head>
@@ -59,9 +55,11 @@ $stmt->close();
     <div class="header-top-nav">
         <div class="wrap">
             <ul>
-                <li><a href="user_profile.php">Profile</a></li>
-                <li><a href="hotel_user.php">Our Hotels</a></li>
-                <li class="active"><a href="reservdetail.php">Booking Details</a></li> 
+                <li><a href="all-hotel.php">Our Hotels</a></li>
+                <li><a href="create_owner.php">Owner Accounts</a></li>
+                <li class="active"><a href="reservedetailadmin.php">Booking Details</a></li>
+                <li><a href="dispcontact.php">Messages</a></li>
+                <li><a href="userdetail.php">User Details</a></li>
                 <li class="logout-button"><a href="logout.php">Logout</a></li>
                 <div class="clear"></div>
             </ul>
@@ -70,11 +68,12 @@ $stmt->close();
 </div>
 
 <div class="wrap">
-    <h1>Your Booking Details</h1>
+    <h1>All Booking Details</h1>
     <table>
         <thead>
             <tr>
                 <th>Booking ID</th>
+                <th>User Name</th>
                 <th>Hotel Name</th>
                 <th>Room Type</th>
                 <th>Check-In</th>
@@ -87,6 +86,7 @@ $stmt->close();
                 <?php foreach ($bookings as $booking): ?>
                     <tr>
                         <td><?php echo htmlspecialchars($booking['booking_id']); ?></td>
+                        <td><?php echo htmlspecialchars($booking['first_name'] . ' ' . $booking['last_name']); ?></td>
                         <td><?php 
                             // Fetch hotel name using hotel_id from the booking
                             $hotelQuery = "SELECT name FROM hotel WHERE id = ?";
@@ -106,7 +106,7 @@ $stmt->close();
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="6">No bookings found.</td>
+                    <td colspan="7">No bookings found.</td>
                 </tr>
             <?php endif; ?>
         </tbody>

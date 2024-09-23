@@ -232,3 +232,21 @@ CREATE TABLE hotel_reviews (
     FOREIGN KEY (hotel_id) REFERENCES hotel(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES user_data(userid) ON DELETE CASCADE
 );
+
+CREATE TABLE hotel_bookings (
+    booking_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    hotel_id INT NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    room_type VARCHAR(50) NOT NULL,
+    room_no VARCHAR(20) NOT NULL,
+    check_in DATE NOT NULL,
+    check_out DATE NOT NULL,
+    booking_status ENUM('Pending', 'Confirmed', 'Cancelled') DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user_data(userid) ON DELETE CASCADE,
+    FOREIGN KEY (hotel_id) REFERENCES hotel(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

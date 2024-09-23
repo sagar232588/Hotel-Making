@@ -1,248 +1,209 @@
+<?php require 'connection.php'; ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Signup Page</title>
-	<!-- <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'> -->
-	<link href="../css/style.css"  rel="stylesheet" type="text/css"  media="all" />
-	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
-    
-    crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
-  <link rel="stylesheet" href="../css/login.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link href="../css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'> 
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <style>
+        /* Card Layout Styles */
+        .hotel-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px 0;
+        }
+
+        .hotel-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 15px;
+            padding: 15px;
+            width: 300px;
+            box-sizing: border-box;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hotel-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hotel-card img {
+            border-radius: 8px;
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .hotel-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .hotel-card h3 {
+            margin-top: 10px;
+            font-size: 20px;
+        }
+
+        .hotel-card p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        /* Rating Stars */
+        .rating-stars i {
+            color: #ddd; /* Default color for uncolored stars */
+            transition: color 0.3s ease;
+        }
+
+        .rating-stars i.filled {
+            color: gold; /* Color for filled stars */
+        }
+
+        /* Add Hotel Button Styles */
+        .add-hotel-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px 0;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-hotel-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-	<div class="header">
-		<div class="wrap">
-			<div class="header-top">
-				<div class="logo">
-					<a href="index.html"><img src="../images/logo2.png" title="logo" /></a>
-				</div>
-				<div class="contact-info">
-          <p class="phone">Call us : <a href="#">9808147755,9840602765</a></p>
-          <p class="gpa">Gps : <a href="https://www.google.com/maps/place/New+Hotel+Elite+(P)+Ltd/@27.7117484,85.3104502,17z/data=!3m1!4b1!4m9!3m8!1s0x39eb18fdefffffff:0xcf6b523c8d383f44!5m2!4m1!1i2!8m2!3d27.7117484!4d85.3130251!16s%2Fg%2F11b6dq98s8?entry=ttu">View map</a></p>
+<div class="header">
+    <div class="wrap">
+        <div class="header-top">
+            <div class="logo">
+                <a href="index.html"><img src="../images/logo2.png" title="logo" /></a>
+            </div>
+            <div class="contact-info">
+                <p class="phone">Call us : <a href="#">9808147755,9840602765</a></p>
+                <!-- <p class="gpa">Gps : <a href="https://www.google.com/maps/place/New+Hotel+Elite+(P)+Ltd/@27.7117484,85.3104502,17z/data=!3m1!4b1!4m9!3m8!1s0x39eb18fdefffffff:0xcf6b523c8d383f44!5m2!4m1!1i2!8m2!3d27.7117484!4d85.3130251!16s%2Fg%2F11b6dq98s8?entry=ttu">View map</a></p> -->
+            </div>
+            <div class="clear"> </div>
         </div>
-				<div class="clear"> </div>
-			</div>
-		</div>
-		<div class="header-top-nav">
-			<div class="wrap">
-				<ul>
-					<li><a href="../index.html">Home</a></li>
-					<li class="active"><a href="../hotel.php">Our Hotels</a></li>
-					<li><a href="../about.html">About</a></li>
-					<li><a href="../services.html">Services</a></li>
-					<li><a href="../gallery.html">Gallery</a></li>
-					<li><a href="../contact.html">Contact</a></li>
-          <li ><a href="signup.php">Login</a></li>
+    </div>
+    <div class="header-top-nav">
+        <div class="wrap">
+            <ul>
+            <ul>
+			<li ><a href="../index.html">Home</a></li>
+			<li class="active"><a href="hotel.php">Our Hotels</a></li>
+			<li><a href="../about.html">About</a></li>
+			<li><a href="../services.html">Services</a></li>
+			<li><a href="../gallery.html">Gallery</a></li>
+			<li><a href="../contact.html">Contact</a></li>
+			<li class="login-button"><a href="signup.php">Login</a></li>
+			<div class="clear"> </div>
+                </ul>
+            </ul>
+        </div>
+    </div>
+</div>
 
-					<div class="clear"> </div>
-				</ul>
-			</div>
-		</div>
-	</div>
+<div style="width:100%;background:whitesmoke;padding:20px 0;margin-top: 20px;">
+    <div class="wrap">
+        <h2>List of Hotels</h2>
+		<form method="GET" action="">
+                <input type="text" name="search" placeholder="Search hotels by name..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" />
+                <input type="submit" value="Search" />
+            </form>
+        <div class="hotel-list">
+            <?php
+            // Get the search input
+			$search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+			// Modified query to include search functionality
+		  $query = "SELECT * FROM hotel WHERE name LIKE '%$search%'";
+		  $result = mysqli_query($conn, $query);
+            if (mysqli_num_rows($result) > 0) {
+                while($row = mysqli_fetch_assoc($result)) {
+                    // Fetch average rating
+                    $hotel_id = $row['id'];
+                    $rating_query = "SELECT AVG(rating) as avg_rating FROM hotel_reviews WHERE hotel_id = $hotel_id";
+                    $rating_result = mysqli_query($conn, $rating_query);
+                    $rating = mysqli_fetch_assoc($rating_result)['avg_rating'];
+                    $rating = $rating ? round($rating) : 0; // Default to 0 if no rating
+                    
+                    echo "<div class='hotel-card'>";
+                    echo "<img src='uploads/" . htmlspecialchars($row['img']) . "' alt='Hotel Image'>";
+                    echo "<h3>" . htmlspecialchars($row['name']) . "</h3>";
+                    echo "<p><strong>Description:</strong> " . htmlspecialchars($row['description']) . "</p>";
+                    echo "<p><strong>Facilities:</strong> " . htmlspecialchars($row['facility']) . "</p>";
+                    echo "<p><strong>Location:</strong> " . htmlspecialchars($row['location']) . "</p>";
+
+                    // Display average rating with stars
+                    echo "<p><strong>Average Rating:</strong></p>";
+                    echo "<div class='rating-stars'>";
+                    for ($i = 1; $i <= 5; $i++) {
+                        $star_class = $i <= $rating ? 'fas fa-star filled' : 'far fa-star';
+                        echo "<i class='$star_class'></i>";
+                    }
+                    echo "</div>";
+
+                    echo "<div class='button-container'>";
+                    echo "<a href='viewhotel.php?id=" . $row['id'] . "' class='hotel-button'>View</a>";
+                    echo "</div>";
+                    echo "</div>";
+                }
+            } else {
+                echo "<p>No hotels have been added yet.</p>";
+            }
+
+            mysqli_close($conn);
+            ?>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script>
+    // Get the modal
+    var modal = document.getElementById("hotelModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("addHotelBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 </body>
 </html>
-	<?php require 'connection.php'; ?>
-
-<?php $id=$_GET['id'];
-
-/* Fetching data from database based on selected id*/
-
-$sql = "SELECT * FROM hotel where id=".$id;
-$result = $conn->query($sql);
-if ($result->num_rows > 0) { 
-$row = $result->fetch_assoc();
-$name_slug=  preg_replace('#[ -]+#', '-', strtolower($row['name']));
-?>
-<div class="container">
-	 
-	<div style="width:50%;float:left;text-align: center;">
-		<img src="assets/hotel_img/<?php echo $name_slug; ?>/<?php echo $row['img'];?>" style="height:300px;width:300px;"/>
-	</div>
-	<div style="width:50%;float:left">
-
-  
-	<?php
-		
-
-		
-		 ?>
-		     	
-	     	<p>Hotel Name : <?php echo $row['name'];?></p>
-			<p>Price : Under $<?php echo $row['price'];?></p>
-			<p>Descriptoin : <?php echo $row['description'];?></p>
-			<p>Facility : <?php echo $row['facility'];?> </p>
-			<p>Location : <?php echo ucfirst($row['location']);?> </p>
-
-
-
-		<?php if($_SESSION['is_logged_in']=="true"){ ?>
-		<div >
-			<h4> Write a review about hotel </h4>
-	        <form class="reviewform" method=POST action='review.php'>
-
-				<label style="float:left;">Rate this Hotel :</label>
-				<div style="margin-top:-20px;float:left;">
-
-				<input class="star star-5" id="star-5" type="radio" name="rating" value='5'/>
-				<label class="star star-5" for="star-5"></label>
-				<input class="star star-4" id="star-4" type="radio" name="rating" value='4'/>
-				<label class="star star-4" for="star-4"></label>
-				<input class="star star-3" id="star-3" type="radio" name="rating" value='3'/>
-				<label class="star star-3" for="star-3"></label>
-				<input class="star star-2" id="star-2" type="radio" name="rating" value='2'/>
-				<label class="star star-2" for="star-2"></label>
-				<input class="star star-1" id="star-1" type="radio" name="rating" value='1'/>
-				<label class="star star-1" for="star-1"></label>
-				</div>
-
-
-				<div style="clear:both;"></div>
-		        <input type='hidden' name="hotelid" value="<?php echo $id;?>"/>
-		        <input type='hidden' name="username" value="<?php echo $_SESSION['userid'];?>"/>
-	          
-			  <textarea rows="4" cols="50" name="reviews" placeholder="Write something"></textarea> 
-			  <br/>
-			  <input type="submit" value="Submit" style="background:green;height:20px;background: #120c4e;height: 30px;color: white;"> 
-			</form> 
-		</div>
-		<?php } ?>
-		
-
-
-
-		
-		<?php
-
-		/* Fetching reviews based on id */
-
-		$hotel_id=$row['id'];
-		$sql1 = "SELECT * FROM reviews where hotel_id='$hotel_id' ORDER BY id desc" ;
-		$result1 = $conn->query($sql1);
-
-		if ($result1->num_rows > 0){ ?>
-		<h2>Reviews by users : </h2>	
-		<?php } else{ ?>
-        <h2 style="color:red;"> No reviews available</h2>     
-
-		<?php	}  
-
-		if ($result1->num_rows > 0) { 
-
-
-			 $i=0;
-			while($row1 = $result1->fetch_assoc()) { 
-
-	 	    $userid=$row1['username'];
-			$sql2 = "SELECT username FROM users where id='$userid' LIMIT 1 "; 	
-			$result3 = $conn->query($sql2);
-			$row2 = $result3->fetch_assoc();
-
-	 	?>	
-		
-		
-		<div style="clear:both;width:100%;">
-		
-          
- 		<div style="float:left;margin-right:5px;"><?php  $max=$row1['rating']; if($max==0){$max=1;} for($j=0;$j<$max;$j++){ ?> <img src="assets/star.png" style="width:15px;height:15px;"/><?php  }?></div>
-       
-		<p>  <?php echo $row1['reviews'];?>.  User : <b style="color:#003171;"><?php echo ucwords($row2['username']);?></b></p>
-
-
-		 
-
-		</div>
-
-
-         
-
- 	<?php if($i>=4)  break;  
-
-
- 	      $i++; } 
-
-
-        } 
-		} else {
-		    echo "0 results";
-		}
-	?>
-
-
-
-
- </div>
-
-	
-
-</div>
-
-<!-- Hotel suggestions based on location and price selected by user -->
-
-<div style="width:100%;display: block;padding:10px 20px;min-height:500px;margin-top:20px;clear:both;">
-		
-        <?php
-        $location=strtolower($row['location']);
-        $sugg_price=$row['price'];
-        $sql = "SELECT * FROM hotel where id!='$id' AND location='$location' AND price < '$sugg_price' LIMIT 5";
-		$result = $conn->query($sql);
-
-		if ($result->num_rows > 0) {
-
-		?>
-		<h2>Recommended Hotels : </h2>
-		<?php
-		    // output data of each row
-		    while($row = $result->fetch_assoc()) {   
-
-		    	$name_slug=  preg_replace('#[ -]+#', '-', strtolower($row['name']));
-
-		    	$hotel_id=$row['id'];
-		    	$sql3 = "SELECT rating FROM reviews where hotel_id='$hotel_id' LIMIT 5";
-				$result3 = $conn->query($sql3);
-
-				$sum = 0;
-				$usercount=0;
-				while($row3 = $result3->fetch_assoc()) {
-					 
-					$sum+=($row3['rating']);
-					$usercount++;
-				}
-
-
-				if($usercount=='0'){
-					$usercount=1;
-				}
-				$averating=round($sum/$usercount); 
-				 
-       
-		     ?>
-		     <a href="hotel.php?id=<?php echo $row['id']; ?>">
-		        <div style="width:30%;float:left;margin:5px;height:450px;overflow: hidden;">
-		        	<h2> <?php echo ucwords($row["name"]); ?> </h2>
-		        	<img src="assets/hotel_img/<?php echo $name_slug; ?>/<?php echo $row['img'];?>" style="height:250px;"/>
-		        	<div class="hotel-list-item-details" style="text-align: center;">
-					 <br/>
-					<span> <b style="float:left;">Rating : </b>
-
-					<div style="float:left;margin-right:5px;margin-left:5px;"><?php  $max=$averating; if($max==0){$max=1;} for($j=0;$j<$max;$j++){ ?> <img src="assets/star.png" style="width:15px;height:15px;"/><?php  }?></div>
-
-
-
-					     Price : $<?php echo $row['price']; ?>  | <?php echo ucfirst($row['location']); ?></span>
-
-				</div>
-	        	</div>
-	         </a>
-	         	
-		<?php }
-		} else {
-		    echo "<h2 style='color:red;''>No results found </h2>";
-		}
-
-        ?>
-
-
-</div>
-
-<?php include 'footer.php' ?>

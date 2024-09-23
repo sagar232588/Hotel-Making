@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <link href="../css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'> 
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <style>
         /* Card Layout Styles */
         .hotel-list {
@@ -85,6 +88,42 @@
         .add-hotel-button:hover {
             background-color: #0056b3;
         }
+        .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.hotel-button,
+.book-room-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.hotel-button {
+    background-color: #007bff; /* Blue color */
+    color: white;
+}
+
+.hotel-button:hover {
+    background-color: #0056b3; /* Darker blue */
+}
+
+.book-room-button {
+    background-color: #28a745; /* Green color */
+    color: white;
+}
+
+.book-room-button:hover {
+    background-color: #218838; /* Darker green */
+}
+
     </style>
 </head>
 <body>
@@ -96,7 +135,7 @@
             </div>
             <div class="contact-info">
                 <p class="phone">Call us : <a href="#">9808147755,9840602765</a></p>
-                <p class="gpa">Gps : <a href="https://www.google.com/maps/place/New+Hotel+Elite+(P)+Ltd/@27.7117484,85.3104502,17z/data=!3m1!4b1!4m9!3m8!1s0x39eb18fdefffffff:0xcf6b523c8d383f44!5m2!4m1!1i2!8m2!3d27.7117484!4d85.3130251!16s%2Fg%2F11b6dq98s8?entry=ttu">View map</a></p>
+                <!-- <p class="gpa">Gps : <a href="https://www.google.com/maps/place/New+Hotel+Elite+(P)+Ltd/@27.7117484,85.3104502,17z/data=!3m1!4b1!4m9!3m8!1s0x39eb18fdefffffff:0xcf6b523c8d383f44!5m2!4m1!1i2!8m2!3d27.7117484!4d85.3130251!16s%2Fg%2F11b6dq98s8?entry=ttu">View map</a></p> -->
             </div>
             <div class="clear"> </div>
         </div>
@@ -104,12 +143,14 @@
     <div class="header-top-nav">
         <div class="wrap">
             <ul>
-                <li><a href="user_profile.php">Profile</a></li>
-                <li class="active"><a href="hotel-user.php">Our Hotels</a></li>
-                <li><a href="dispcontact.php">Messages</a></li>
-                <li><a href="userdetail.php">User Details</a></li>
-                <li class="logout-button"><a href="logout.php">Logout</a></li>
-                <div class="clear"> </div>
+            <ul>
+                    <li><a href="user_profile.php">Profile</a></li>
+                    <li  class="active"><a href="hotel_user.php">Our Hotels</a></li>
+                    <!-- <li><a href="../room_details.html">Room Details</a></li> -->
+                    <li><a href="reservdetail.php">Booking Details</a></li> 
+                    <li class="logout-button"><a href="logout.php">Logout</a></li>
+                    <div class="clear"> </div>
+                </ul>
             </ul>
         </div>
     </div>
@@ -118,11 +159,17 @@
 <div style="width:100%;background:whitesmoke;padding:20px 0;margin-top: 20px;">
     <div class="wrap">
         <h2>List of Hotels</h2>
+        <form method="GET" action="">
+                <input type="text" name="search" placeholder="Search hotels by name..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" />
+                <input type="submit" value="Search" />
+            </form>
         <div class="hotel-list">
             <?php
-            // Fetch hotel details from the database
-            $query = "SELECT * FROM hotel";
-            $result = mysqli_query($conn, $query);
+            // Get the search input
+            $search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+            // Modified query to include search functionality
+          $query = "SELECT * FROM hotel WHERE name LIKE '%$search%'";
+          $result = mysqli_query($conn, $query);
 
             if (mysqli_num_rows($result) > 0) {
                 while($row = mysqli_fetch_assoc($result)) {
@@ -151,8 +198,10 @@
 
                     echo "<div class='button-container'>";
                     echo "<a href='viewhotel.php?id=" . $row['id'] . "' class='hotel-button'>View</a>";
+                    echo "<a href='reservation.php?hotel_id=" . $row['id'] . "' class='book-room-button'>Book Room</a>";
                     echo "</div>";
                     echo "</div>";
+                    
                 }
             } else {
                 echo "<p>No hotels have been added yet.</p>";

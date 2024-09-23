@@ -6,12 +6,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $hotel_id = isset($_POST['hotel_id']) ? $_POST['hotel_id'] : '';
     $owner_name = isset($_POST['owner_name']) ? $_POST['owner_name'] : '';
     $owner_email = isset($_POST['owner_email']) ? $_POST['owner_email'] : '';
+   
     $owner_phone = isset($_POST['owner_phone']) ? $_POST['owner_phone'] : '';
     $password = isset($_POST['password']) ? $_POST['password'] : '';
     $confirm_password = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : '';
 
     // Check if all fields are filled
-    if (empty($hotel_id) || empty($owner_name) || empty($owner_email) || empty($owner_phone) || empty($password) || empty($confirm_password)) {
+    if (empty($hotel_id) || empty($owner_name) || empty($owner_email)  || empty($owner_phone) || empty($password) || empty($confirm_password)) {
         echo "<script>alert('All fields are required.'); window.location.href='create_owner.php';</script>";
         exit();
     }
@@ -52,9 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "<script>alert('This hotel already has an owner.'); window.location.href='create_owner.php';</script>";
         } else {
             // Insert the new owner into the database
-            $insert_query = "INSERT INTO hotel_owners (hotel_id, owner_name, owner_email, owner_phone, password) VALUES (?, ?, ?, ?, ?)";
+            $insert_query = "INSERT INTO hotel_owners (hotel_id, owner_name, owner_email,  owner_phone, password) VALUES (?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($insert_query);
-            $stmt->bind_param("issss", $hotel_id, $owner_name, $owner_email, $owner_phone, $plain_password);
+            $stmt->bind_param("issss", $hotel_id, $owner_name, $owner_email,  $owner_phone, $plain_password);
 
             if ($stmt->execute()) {
                 // Get the newly created owner ID

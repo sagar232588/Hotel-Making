@@ -2,7 +2,9 @@
 <html>
 <head>
     <title>Manage User Accounts</title>
-    
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'> 
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <link rel="stylesheet" href="../css/style.css">
 
     <style>
@@ -55,7 +57,7 @@
 						</div>
 						<div class="contact-info">
 							<p class="phone">Call us : <a href="#">9808147755,9840602765</a></p>
-							<p class="gpa">Gps : <a href="https://www.google.com/maps/place/New+Hotel+Elite+(P)+Ltd/@27.7117484,85.3104502,17z/data=!3m1!4b1!4m9!3m8!1s0x39eb18fdefffffff:0xcf6b523c8d383f44!5m2!4m1!1i2!8m2!3d27.7117484!4d85.3130251!16s%2Fg%2F11b6dq98s8?entry=ttu">View map</a></p>
+							<!-- <p class="gpa">Gps : <a href="https://www.google.com/maps/place/New+Hotel+Elite+(P)+Ltd/@27.7117484,85.3104502,17z/data=!3m1!4b1!4m9!3m8!1s0x39eb18fdefffffff:0xcf6b523c8d383f44!5m2!4m1!1i2!8m2!3d27.7117484!4d85.3130251!16s%2Fg%2F11b6dq98s8?entry=ttu">View map</a></p> -->
 						</div>
 						<div class="clear"> </div>
 					</div>
@@ -63,9 +65,11 @@
 				<div class="header-top-nav">
 					<div class="wrap">
 						<ul>
-							<li ><a href="admin_profile.php">Booking Details</a></li>
+							<!-- <li ><a href="admin_profile.php">Booking Details</a></li> -->
 							<!-- <li><a href="change_password.php">Change Password</a></li> -->
 							<li><a href="all-hotel.php">Our Hotels</a></li>
+                            <li><a href="create_owner.php">Owner Accounts</a></li>
+                            <li><a href="reservedetailadmin.php">Booking Details</a></li>
 							<li ><a href="dispcontact.php">Messages</a></li>
 							<li class="active" ><a href="userdetail.php">User Details</a></li>
                      <li class="logout-button"><a href="logout.php">Logout</a></li>

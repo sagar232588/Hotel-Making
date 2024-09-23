@@ -30,6 +30,9 @@ $fetch = mysqli_fetch_assoc($result);
     <link href="../css/style.css" rel="stylesheet" type="text/css" media="all" />
     <link href="../css/userprofile.css" rel="stylesheet" type="text/css" media="all" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+	<link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'> 
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <style>
         #map {
             height: 400px; /* Adjust height as needed */
@@ -59,8 +62,8 @@ $fetch = mysqli_fetch_assoc($result);
                 <ul>
                     <li class="active"><a href="user_profile.php">Profile</a></li>
                     <li ><a href="hotel_user.php">Our Hotels</a></li>
-                    <li><a href="../room_details.html">Room Details</a></li>
-                    <li><a href="reservdetail.php">Booking Details</a></li>
+                   <!-- <li><a href="../room_details.html">Room Details</a></li> -->
+                    <li><a href="reservdetail.php">Booking Details</a></li> 
                     <li class="logout-button"><a href="logout.php">Logout</a></li>
                     <div class="clear"> </div>
                 </ul>
@@ -82,12 +85,25 @@ $fetch = mysqli_fetch_assoc($result);
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" value="<?php echo $fetch['email']; ?>" disabled>
             </div>
+            <div id="radiusSelect">
+    <label for="radius">Select Radius:</label>
+    <select id="radius">
+    <option value="" disabled selected>Select radius</option>
+        <option value="2">2 km</option>
+        <option value="5">5 km</option>
+        <option value="10">10 km</option>
+        <option value="all">Show All</option>
+    </select>
+</div>
         </form>
+       
+        <!-- Dropdown to select the radius -->
+
         <div id="map"></div>
     </div>
 
 	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script>
+    <script>
     // Initialize the map
     var map = L.map('map').setView([51.505, -0.09], 13);
 
@@ -96,34 +112,98 @@ $fetch = mysqli_fetch_assoc($result);
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // Get user's location
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
+    // Define the blue icon for the user's location
+    var userIcon = L.icon({
+        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+        iconSize: [25, 41], 
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
 
-            // Set the map view to the user's location
-            map.setView([lat, lon], 13);
+    // Define the red icon for the hotels
+    var hotelIcon = L.icon({
+        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
 
-            // Add a marker for the user's location
-            L.marker([lat, lon]).addTo(map)
-                .bindPopup("You are here")
-                .openPopup();
-            
-            // Fetch and display nearby hotels
-            fetch(`getHotels.php?lat=${lat}&lon=${lon}`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(hotel => {
-                        L.marker([hotel.location_lat, hotel.location_lon]).addTo(map)
-                            .bindPopup(`<a href="hotel_user.php?id=${hotel.id}">${hotel.name}</a><br>Distance: ${hotel.distance.toFixed(2)} km`);
-                    });
-                })
-                .catch(error => console.error('Error fetching hotels:', error));
-        });
-    } else {
-        alert("Geolocation is not supported by this browser.");
+    // Function to calculate distance between two coordinates (Haversine formula)
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+        var R = 6371; // Radius of the Earth in kilometers
+        var dLat = (lat2 - lat1) * Math.PI / 180;
+        var dLon = (lon2 - lon1) * Math.PI / 180;
+        var a = 
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var distance = R * c; // Distance in kilometers
+        return distance;
     }
+
+    // Function to update hotel markers based on selected radius
+    function updateHotels(radius) {
+        // Clear all existing hotel markers
+        map.eachLayer(function (layer) {
+            if (layer instanceof L.Marker && !layer._icon.classList.contains('leaflet-marker-draggable')) {
+                map.removeLayer(layer);
+            }
+        });
+
+        // Get the user's current location
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var userLat = position.coords.latitude;
+                var userLon = position.coords.longitude;
+
+                // Set the map view to the user's location
+                map.setView([userLat, userLon], 13);
+
+                // Add a marker for the user's location with the blue userIcon
+                L.marker([userLat, userLon], {icon: userIcon})
+                    .addTo(map)
+                    .bindPopup("You are here")
+                    .openPopup();
+
+                // Fetch hotels and display based on the radius selected
+                fetch('getHotels.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(hotel => {
+                            var distance = calculateDistance(userLat, userLon, hotel.location_lat, hotel.location_lon);
+
+                            // Filter based on the radius
+                            if (radius === "all" || distance <= radius) {
+                                L.marker([hotel.location_lat, hotel.location_lon], {icon: hotelIcon})
+                                    .addTo(map)
+                                    .bindPopup('<strong>' + hotel.name + '</strong><br>Distance: ' + distance.toFixed(2) + ' km');
+                            }
+                        });
+                    })
+                    .catch(error => console.error('Error fetching hotels:', error));
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    // Event listener for radius selection
+    document.getElementById('radius').addEventListener('change', function() {
+        var selectedRadius = this.value;
+        if (selectedRadius === "all") {
+            updateHotels("all");
+        } else {
+            updateHotels(parseInt(selectedRadius));
+        }
+    });
+
+    // Initially display hotels within 5 km
+    updateHotels(5);
 </script>
 
 

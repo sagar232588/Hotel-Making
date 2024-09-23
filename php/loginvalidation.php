@@ -80,7 +80,7 @@ if (empty($_POST['logemail']) || empty($_POST['logpass'])) {
 
         // Redirect based on the role
         if ($row['role'] == 'admin') {
-            header("Location: admin_profile.php");
+            header("Location: all-hotel.php");
         } else {
             header("Location: user_profile.php");
         }

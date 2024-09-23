@@ -186,6 +186,9 @@ $conn->close();
             cursor: pointer;
         }
     </style>
+    		<link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'> 
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 </head>
 <body>
 <div class="header">
@@ -196,7 +199,7 @@ $conn->close();
                 </div>
                 <div class="contact-info">
                     <p class="phone">Call us : <a href="#">9808147755,9840602765</a></p>
-                    <p class="gpa">Gps : <a href="https://www.google.com/maps/place/New+Hotel+Elite+(P)+Ltd/@27.7117484,85.3104502,17z/data=!3m1!4b1!4m9!3m8!1s0x39eb18fdefffffff:0xcf6b523c8d383f44!5m2!4m1!1i2!8m2!3d27.7117484!4d85.3130251!16s%2Fg%2F11b6dq98s8?entry=ttu">View map</a></p>
+                    <!-- <p class="gpa">Gps : <a href="https://www.google.com/maps/place/New+Hotel+Elite+(P)+Ltd/@27.7117484,85.3104502,17z/data=!3m1!4b1!4m9!3m8!1s0x39eb18fdefffffff:0xcf6b523c8d383f44!5m2!4m1!1i2!8m2!3d27.7117484!4d85.3130251!16s%2Fg%2F11b6dq98s8?entry=ttu">View map</a></p> -->
                 </div>
                 <div class="clear"> </div>
             </div>
@@ -207,9 +210,10 @@ $conn->close();
                     <li><a href="owner_profile.php">Profile</a></li>
                     <li><a href="hotel_details_owner.php">Hotel</a></li>
                     <li class="active"><a href="room_details.php">Rooms</a></li>
-                    <li><a href="services.html">Services</a></li>
+                    <li><a href="reservedetailowner.php">Booking History</a></li>
+                    <!-- <li><a href="services.html">Services</a></li>
                     <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="contact.html">Contact</a></li> -->
                     <li class="logout-button"><a href="logout.php">Logout</a></li>
                     <div class="clear"> </div>
                 </ul>
@@ -228,7 +232,7 @@ $conn->close();
                         <div class="room-card-body">
                             <h4>Room Number: <?php echo htmlspecialchars($room['room_number']); ?></h4>
                             <p>Room Type: <?php echo htmlspecialchars($room['room_type']); ?></p>
-                            <p>Price: $<?php echo htmlspecialchars($room['price']); ?></p>
+                            <p>Price:Rs<?php echo htmlspecialchars($room['price']); ?></p>
                             <p>Availability: <?php echo htmlspecialchars($room['availability']); ?></p>
                             <p>Services: 
                                 <?php 
@@ -264,9 +268,23 @@ $conn->close();
             </div>
 
             <div class="form-group">
-                <label for="room_type">Room Type</label>
-                <input type="text" id="room_type" name="room_type" required>
-            </div>
+    <label for="room_type">Room Type</label>
+    <select id="room_type" name="room_type" required>
+        <option value="" disabled selected>Select room type</option>
+        <option value="single">Single Room</option>
+        <option value="double">Double Room</option>
+        <option value="triple">Triple Room</option>
+        <option value="suite">Suite</option>
+        <option value="connecting">Connecting Room</option>
+        <option value="deluxe">Deluxe Room</option>
+        <option value="family">Family Room</option>
+        <option value="executive">Executive Room</option>
+        <option value="penthouse">Penthouse</option>
+        <option value="presiental">Presidental suite</option>
+
+    </select>
+</div>
+
 
             <div class="form-group">
                 <label for="price">Price per Night</label>
